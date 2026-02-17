@@ -24,11 +24,11 @@ public class CourseInstance
         Id = Guid.NewGuid();
         CourseId = courseId;
         LocationId = locationId;
-        StartDate = startDate;
-        EndDate = endDate;
+        StartDateUtc = startDate;
+        EndDateUtc = endDate;
         Capacity = capacity;
 
-        if (StartDate <= EndDate)
+        if (StartDateUtc <= EndDateUtc)
             throw new ArgumentException("Start date must be before end date.");
 
         if (Capacity <= 0)
