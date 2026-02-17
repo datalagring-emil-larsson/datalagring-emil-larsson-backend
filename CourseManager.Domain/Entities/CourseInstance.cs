@@ -7,8 +7,8 @@ public class CourseInstance
     public Guid Id { get; private set; }
     public Guid CourseId { get; private set; }
     public Guid LocationId { get; private set; }
-    public DateTime StartDate { get; private set; }
-    public DateTime EndDate { get; private set; }
+    public DateTime StartDateUtc { get; private set; }
+    public DateTime EndDateUtc { get; private set; }
     public int Capacity { get; private set; }
     private readonly List<Enrollment> _enrollments = new();
     public IReadOnlyCollection<Enrollment> Enrollments => _enrollments;
@@ -50,7 +50,7 @@ public class CourseInstance
         if (_enrollments.Any(e => e.ParticipantId == participantId && e.Status == Enums.EnrollmentStatus.Registered))
             throw new DomainException("Participant is already enrolled.");
 
-        var enrollment = new Enrollment(Guid.NewGuid(), participantId, Enum, nowUtc);
+        var enrollment = new Enrollment(Guid.NewGuid(), participantId, Id, nowUtc);
         _enrollments.Add(enrollment);
         return enrollment;
     }
