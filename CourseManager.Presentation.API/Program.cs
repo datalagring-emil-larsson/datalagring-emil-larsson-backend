@@ -1,5 +1,5 @@
 using CourseManager.Infrastructure;
-using CourseManager.Application;
+using CourseManager.Application.Common;
 
 var builder = WebApplication.CreateBuilder(args);
 
