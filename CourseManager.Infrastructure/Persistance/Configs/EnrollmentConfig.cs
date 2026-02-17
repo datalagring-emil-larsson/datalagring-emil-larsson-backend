@@ -8,8 +8,8 @@ public sealed class EnrollmentConfig : IEntityTypeConfiguration<Enrollment>
     public void Configure(EntityTypeBuilder<Enrollment> builder)
     {
         builder.ToTable("Enrollments");
-
         builder.HasKey(e => e.Id);
+
         builder.Property(e => e.ParticipantId)
             .IsRequired();
 

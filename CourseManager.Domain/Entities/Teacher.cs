@@ -8,6 +8,7 @@ public sealed class Teacher
     public string FirstName { get; private set; } = null!;
     public string LastName { get; private set; } = null!;
     public string Email { get; private set; } = null!;
+    public string expertise { get; private set; } = null!;
 
     private Teacher() { }
 
