@@ -1,4 +1,4 @@
-﻿using CourseManager.Application.Features.Enrollments;
+﻿using CourseManager.Application.Features.Enrollments.EnrollParticipant;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CourseManager.Application.Common;

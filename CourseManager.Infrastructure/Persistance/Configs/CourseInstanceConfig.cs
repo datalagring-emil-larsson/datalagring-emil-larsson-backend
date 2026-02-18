@@ -11,6 +11,9 @@ public sealed class CourseInstanceConfig : IEntityTypeConfiguration<CourseInstan
         builder.ToTable("CourseInstances");
         builder.HasKey(ci => ci.Id);
 
+        builder.Property(ci => ci.Id)
+            .ValueGeneratedNever();
+
         builder.Property(ci => ci.Capacity)
             .IsRequired();
 

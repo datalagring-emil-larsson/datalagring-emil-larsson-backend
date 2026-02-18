@@ -11,6 +11,9 @@ public sealed class ParticipantConfig : IEntityTypeConfiguration<Participant>
         builder.ToTable("Participants");
         builder.HasKey(p => p.Id);
 
+        builder.Property(p => p.Id)
+            .ValueGeneratedNever();
+
         builder.Property(p => p.Email)
             .HasMaxLength(255)
             .IsUnicode(false)
