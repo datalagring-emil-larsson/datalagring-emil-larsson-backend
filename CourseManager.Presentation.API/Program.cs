@@ -1,8 +1,10 @@
 using CourseManager.Application.Common;
+using CourseManager.Domain.Exceptions;
 using CourseManager.Infrastructure;
 using CourseManager.Infrastructure.Persistance;
 using CourseManager.Presentation.API.Endpoints;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,34 +18,23 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
-app.UseHttpsRedirection();
-app.MapEnrollmentsEndpoints();
-app.MapDummyDataEndpoints();
-
-app.MapGet("/health", () => Results.Ok("OK"));
-
 app.UseExceptionHandler(errorApp =>
 {
     errorApp.Run(async context =>
     {
-        var ex = context.Features.Get<Microsoft.AspNetCore.Diagnostics.IExceptionHandlerFeature>()?.Error;
+        var feature = context.Features.Get<IExceptionHandlerFeature>();
+        var ex = feature?.Error;
 
         context.Response.ContentType = "application/problem+json";
 
-        if (ex is CourseManager.Application.Common.NotFoundException)
+        if (ex is NotFoundException)
         {
             context.Response.StatusCode = StatusCodes.Status404NotFound;
             await context.Response.WriteAsJsonAsync(new { error = ex.Message });
             return;
         }
 
-        if (ex is CourseManager.Domain.Exceptions.DomainException)
+        if (ex is DomainException)
         {
             context.Response.StatusCode = StatusCodes.Status400BadRequest;
             await context.Response.WriteAsJsonAsync(new { error = ex.Message });
@@ -53,5 +44,20 @@ app.UseExceptionHandler(errorApp =>
         await context.Response.WriteAsJsonAsync(new { error = "Unexpected error." });
     });
 });
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseHttpsRedirection();
+app.MapEnrollmentsEndpoints();
+app.MapDummyDataEndpoints();
+app.MapParticipantsEndpoints();
+
+app.MapGet("/health", () => Results.Ok("OK"));
+
+
 
 app.Run();

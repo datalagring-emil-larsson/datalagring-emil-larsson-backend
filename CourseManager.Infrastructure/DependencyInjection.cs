@@ -1,4 +1,5 @@
 ﻿using CourseManager.Application.Abstractions.Persistence;
+using CourseManager.Application.Features.Participants;
 using CourseManager.Infrastructure.Persistance;
 using CourseManager.Infrastructure.Persistance.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,7 @@ public static class DependencyInjection
 
         services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
         services.AddScoped<ICourseInstanceRepository, CourseInstanceRepository>();
+        services.AddScoped<ParticipantService>();
 
         return services;
     }
