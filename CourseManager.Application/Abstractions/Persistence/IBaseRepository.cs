@@ -6,8 +6,8 @@ public interface IBaseRepository<TEntity> where TEntity : class
     Task<List<TEntity>> ListAsync(CancellationToken ct);
 
     Task AddAsync(TEntity entity, CancellationToken ct);
-    void UpdateAsync(TEntity entity, CancellationToken ct);
-    void DeleteAsynAsync(Guid id, CancellationToken ct);
+    void Update(TEntity entity);
+    void Remove(TEntity entity);
 
     Task SaveChangesAsync(CancellationToken ct);
 

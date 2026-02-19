@@ -16,6 +16,7 @@ public static class DependencyInjection
         services.AddDbContext<CourseManagerDbContext>(options =>
             options.UseSqlServer(conectionString, sql => sql.MigrationsAssembly(typeof(CourseManagerDbContext).Assembly.FullName)));
 
+        services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
         services.AddScoped<ICourseInstanceRepository, CourseInstanceRepository>();
 
         return services;
