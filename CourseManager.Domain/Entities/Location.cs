@@ -5,19 +5,32 @@ namespace CourseManager.Domain.Entities;
 public sealed class Location
 {
     public Guid Id { get; private set; }
-    public string Name { get; private set; } = null!;
+    public string Classroom { get; private set; } = null!;
     public string Address { get; private set; } = null!;
     public string City { get; private set; } = null!;
 
     private Location() { }
 
-    public Location(string name, string address, string city)
+    public Location(string classRoom, string address, string city)
     {
         Id = Guid.NewGuid();
-        Name = name.Trim();
+        Update(classRoom, address, city);
+    }
+
+    public void Update(string classRoom, string address, string city)
+    {
+        Classroom = classRoom.Trim();
         Address = address.Trim();
         City = city.Trim();
-        if (string.IsNullOrWhiteSpace(Name))
-            throw new DomainException("Locationname cannot be empty.");
+
+
+        if (string.IsNullOrWhiteSpace(classRoom))
+            throw new DomainException("StreetName cannot be empty.");
+
+        if (string.IsNullOrWhiteSpace(address))
+            throw new DomainException("Adress cannot be empty.");
+
+        if (string.IsNullOrWhiteSpace(city))
+            throw new DomainException("City cannot be empty.");
     }
 }

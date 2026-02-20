@@ -11,8 +11,20 @@ public sealed class LocationConfig : IEntityTypeConfiguration<Location>
         builder.ToTable("Locations");
         builder.HasKey(l => l.Id);
 
-        builder.Property(l => l.Name)
+        builder.Property(l => l.Id)
+            .ValueGeneratedNever();
+
+        builder.Property(l => l.Classroom)
             .HasMaxLength(100)
             .IsRequired();
+
+        builder.Property(l => l.Address)
+            .HasMaxLength(200)
+            .IsRequired();
+
+        builder.Property(l => l.City)
+            .HasMaxLength(100)
+            .IsRequired();
+            
     }
 }
