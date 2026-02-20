@@ -11,10 +11,8 @@ public sealed class TeacherConfig : IEntityTypeConfiguration<Teacher>
         builder.ToTable("Teacher");
         builder.HasKey(t => t.Id);
 
-        builder.Property(t => t.Email)
-            .HasMaxLength(255)
-            .IsUnicode(false)
-            .IsRequired();
+        builder.Property(t => t.Id)
+            .ValueGeneratedNever();
 
         builder.Property(t => t.FirstName)
             .HasMaxLength(100)
@@ -24,8 +22,16 @@ public sealed class TeacherConfig : IEntityTypeConfiguration<Teacher>
             .HasMaxLength(255)
             .IsRequired();
 
-        builder.Property(t => t.expertise)
+        builder.Property(t => t.Email)
+            .HasMaxLength(255)
+            .IsUnicode(false)
+            .IsRequired();
+
+        builder.Property(t => t.Expertise)
             .HasMaxLength(200)
             .IsRequired();
+
+        builder.HasIndex(t => t.Email)
+            .IsUnique();
     }
 }
