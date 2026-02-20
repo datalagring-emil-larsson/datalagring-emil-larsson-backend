@@ -55,6 +55,7 @@ app.UseHttpsRedirection();
 app.MapEnrollmentsEndpoints();
 app.MapDummyDataEndpoints();
 app.MapParticipantsEndpoints();
+app.MapCoursesEndpoints();
 
 app.MapGet("/health", () => Results.Ok("OK"));
 
