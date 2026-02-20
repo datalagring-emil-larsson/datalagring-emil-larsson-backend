@@ -11,6 +11,9 @@ public sealed class CourseConfig : IEntityTypeConfiguration<Course>
         builder.ToTable("Courses");
         builder.HasKey(c => c.Id);
 
+        builder.Property(c => c.Id)
+            .ValueGeneratedNever();
+
         builder.Property(c => c.CourseCode)
             .HasMaxLength(20)
             .IsUnicode(false)
@@ -23,5 +26,8 @@ public sealed class CourseConfig : IEntityTypeConfiguration<Course>
         builder.Property(c => c.Description)
             .HasMaxLength(500)
             .IsRequired();
+
+        builder.HasIndex(c => c.CourseCode)
+            .IsUnique();
     }
 }
