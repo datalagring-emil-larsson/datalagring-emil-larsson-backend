@@ -40,6 +40,15 @@ public class CourseInstance
         Teachers.Add(new CourseInstanceTeacher(Id, teacherId));
     }
 
+    public void UnassignTeacher(Guid teacherId)
+    {
+        var teacher = Teachers.FirstOrDefault(t => t.TeacherId == teacherId);
+        if (teacher is null)
+            throw new DomainException("Teacher is not assigned to this course instance.");
+
+        Teachers.Remove(teacher);
+    }
+
     public Enrollment Enroll(Guid participantId, DateTime nowUtc)
     {
         if (Enrollments.Count(e => e.Status == Enums.EnrollmentStatus.Registered) >= Capacity)
@@ -51,6 +60,21 @@ public class CourseInstance
         var enrollment = new Enrollment(Guid.NewGuid(), participantId, Id, nowUtc);
         Enrollments.Add(enrollment);
         return enrollment;
+    }
+
+    public void Update(Guid courseId, Guid locationId, DateTime startDateUtc, DateTime endDateUtc, int capacity)
+    {
+        CourseId = courseId;
+        LocationId = locationId;
+        StartDateUtc = startDateUtc;
+        EndDateUtc = endDateUtc;
+        Capacity = capacity;
+
+        if (StartDateUtc >= EndDateUtc)
+            throw new ArgumentException("Start date must be before end date.");
+
+        if (Capacity <= 0)
+            throw new ArgumentException("Capacity must be greater than zero.");
     }
 
 }

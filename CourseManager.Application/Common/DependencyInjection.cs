@@ -1,4 +1,5 @@
-﻿using CourseManager.Application.Features.Courses;
+﻿using CourseManager.Application.Features.CourseInstances;
+using CourseManager.Application.Features.Courses;
 using CourseManager.Application.Features.Enrollments.EnrollParticipant;
 using CourseManager.Application.Features.Locations;
 using CourseManager.Application.Features.Teachers;
@@ -17,6 +18,8 @@ public static class DependencyInjection
         services.AddScoped<TeacherService>();
 
         services.AddScoped<LocationService>();
+
+        services.AddScoped<CourseInstanceService>();
 
         return services;
     }
