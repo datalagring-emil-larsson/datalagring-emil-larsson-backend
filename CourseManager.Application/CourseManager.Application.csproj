@@ -14,4 +14,8 @@
     <ProjectReference Include="..\CourseManager.Domain\CourseManager.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Enrollments\DTOs\" />
+  </ItemGroup>
+
 </Project>

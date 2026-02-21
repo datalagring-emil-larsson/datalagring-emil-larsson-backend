@@ -1,6 +1,7 @@
 ﻿using CourseManager.Application.Features.CourseInstances;
 using CourseManager.Application.Features.CourseInstanceTeacher;
 using CourseManager.Application.Features.Courses;
+using CourseManager.Application.Features.Enrollments;
 using CourseManager.Application.Features.Enrollments.EnrollParticipant;
 using CourseManager.Application.Features.Locations;
 using CourseManager.Application.Features.Teachers;
@@ -12,7 +13,9 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        services.AddScoped<EnrollParticipantService>();
+        //services.AddScoped<EnrollParticipantService>();
+
+        services.AddScoped<EnrollmentService>();
 
         services.AddScoped<CourseService>();
 
