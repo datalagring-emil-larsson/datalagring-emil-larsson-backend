@@ -59,6 +59,7 @@ app.MapCoursesEndpoints();
 app.MapTeacherEndpoints();
 app.MapLocationEndpoints();
 app.MapCourseInstanceEndpoints();
+app.MapCourseInstanceTeachersEndpoints();
 
 app.MapGet("/health", () => Results.Ok("OK"));
 

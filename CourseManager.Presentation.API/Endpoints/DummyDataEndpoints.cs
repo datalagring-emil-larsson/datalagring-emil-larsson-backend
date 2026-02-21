@@ -8,7 +8,7 @@ public static class DummyDataEndpoints
 {
     public static IEndpointRouteBuilder MapDummyDataEndpoints(this IEndpointRouteBuilder app)
     {
-        app.MapPost("/seed", async (CourseManagerDbContext db) =>
+        app.MapPost("/seedDummyData", async (CourseManagerDbContext db) =>
         {
 
 
@@ -25,7 +25,7 @@ public static class DummyDataEndpoints
             db.AddRange(courseInstance, participant);
             await db.SaveChangesAsync();    
 
-            return Results.Created("/seed", new
+            return Results.Created("/seedDummyData", new
             {
                 courseInstanceId = courseInstance.Id,
                 participantId = participant.Id,
