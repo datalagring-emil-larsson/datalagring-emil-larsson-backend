@@ -22,19 +22,19 @@ public static class TeacherEndpoints
             return Results.Ok(teachers);
         });
 
-        group.MapGet("/{id:guid}", async (int id, TeacherService service, CancellationToken ct) =>
+        group.MapGet("/{id:int}", async (int id, TeacherService service, CancellationToken ct) =>
         {
             var teacher = await service.GetByIdAsync(id, ct);
             return Results.Ok(teacher);
         });
 
-        group.MapPut("/{id:guid}", async (int id, UpdateTeacherRequest request, TeacherService service, CancellationToken ct) =>
+        group.MapPut("/{id:int}", async (int id, UpdateTeacherRequest request, TeacherService service, CancellationToken ct) =>
         {
             await service.UpdateAsync(id, request, ct);
             return Results.NoContent();
         });
 
-        group.MapDelete("/{id:guid}", async (int id, TeacherService service, CancellationToken ct) =>
+        group.MapDelete("/{id:int}", async (int id, TeacherService service, CancellationToken ct) =>
         {
             await service.DeleteAsync(id, ct);
             return Results.NoContent();

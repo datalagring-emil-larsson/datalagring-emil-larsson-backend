@@ -6,7 +6,9 @@ public class CourseInstance
 {
     public int Id { get; private set; }
     public int CourseId { get; private set; }
+    public Course CourseDetail { get; private set; } = null!;
     public int LocationId { get; private set; }
+    public Location LocationDetail { get; private set; } = null!;
     public DateTime StartDateUtc { get; private set; }
     public DateTime EndDateUtc { get; private set; }
     public int Capacity { get; private set; }

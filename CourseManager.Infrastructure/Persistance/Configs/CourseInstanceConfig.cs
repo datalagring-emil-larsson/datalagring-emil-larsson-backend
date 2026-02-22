@@ -23,6 +23,16 @@ public sealed class CourseInstanceConfig : IEntityTypeConfiguration<CourseInstan
         builder.Property(ci => ci.EndDateUtc)
             .IsRequired();
 
+        builder.HasOne(ci => ci.CourseDetail)
+            .WithMany()
+            .HasForeignKey(ci => ci.CourseId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(ci => ci.LocationDetail)
+            .WithMany()
+            .HasForeignKey(ci => ci.LocationId)
+            .OnDelete(DeleteBehavior.Restrict);
+
         builder.HasMany(ci => ci.Enrollments)
             .WithOne()
             .HasForeignKey(e => e.CourseInstanceId)

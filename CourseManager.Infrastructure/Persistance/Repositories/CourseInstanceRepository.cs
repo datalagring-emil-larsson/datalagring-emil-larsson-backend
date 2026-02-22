@@ -25,12 +25,21 @@ public sealed class CourseInstanceRepository : BaseRepository<CourseInstance>, I
             .Select(e => e.CourseInstanceId)
             .SingleOrDefaultAsync();
 
-        if (courseInstanceId == 0) return null; // Changed from Guid.Empty to 0 for int type
+        if (courseInstanceId == 0) return null;
 
         return await _context.CourseInstances
             .Include(ci => ci.Enrollments)
             .SingleOrDefaultAsync(ci => ci.Id == courseInstanceId, ct);
     }
-        
+    public Task<CourseInstance?> GetWithCourseAndLocationAsync(int id, CancellationToken ct) =>
+        _context.CourseInstances
+        .Include(ci => ci.CourseDetail)
+        .Include(ci => ci.LocationDetail)
+        .SingleOrDefaultAsync(ci => ci.Id == id, ct);
+    public Task<List<CourseInstance>> ListWithCourseAndLocationAsync(CancellationToken ct) =>
+        _context.CourseInstances
+        .Include(ci => ci.CourseDetail)
+        .Include(ci => ci.LocationDetail)
+        .ToListAsync(ct);
 
 }

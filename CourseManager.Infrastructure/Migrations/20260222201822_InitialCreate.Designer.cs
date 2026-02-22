@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CourseManager.Infrastructure.Migrations
 {
     [DbContext(typeof(CourseManagerDbContext))]
-    [Migration("20260222162405_InitialCreateGUIDtoINT")]
-    partial class InitialCreateGUIDtoINT
+    [Migration("20260222201822_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -81,6 +81,10 @@ namespace CourseManager.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("LocationId");
 
                     b.ToTable("CourseInstances", (string)null);
                 });
@@ -231,6 +235,25 @@ namespace CourseManager.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Enrollments", (string)null);
+                });
+
+            modelBuilder.Entity("CourseManager.Domain.Entities.CourseInstance", b =>
+                {
+                    b.HasOne("CourseManager.Domain.Entities.Course", "CourseDetail")
+                        .WithMany()
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CourseManager.Domain.Entities.Location", "LocationDetail")
+                        .WithMany()
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("CourseDetail");
+
+                    b.Navigation("LocationDetail");
                 });
 
             modelBuilder.Entity("CourseManager.Domain.Entities.CourseInstanceTeacher", b =>

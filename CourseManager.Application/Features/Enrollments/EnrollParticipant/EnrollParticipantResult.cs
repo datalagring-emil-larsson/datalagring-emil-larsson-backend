@@ -1,4 +1,4 @@
 ﻿namespace CourseManager.Application.Features.Enrollments.EnrollParticipant;
 
-public sealed record EnrollParticipantResult(Guid EnrollmentId);
+public sealed record EnrollParticipantResult(int EnrollmentId);
 

@@ -21,12 +21,20 @@ public sealed class TeacherService
         return teacher.Id;
     }
 
-    public async Task<Teacher> GetByIdAsync(int id, CancellationToken ct) 
-        => await _repo.GetByIdAsync(id, ct)
-        ?? throw new NotFoundException("Teacher", id);
+    public async Task<TeacherResult> GetByIdAsync(int id, CancellationToken ct)
+    {
+        var teacher = await _repo.GetByIdAsync(id, ct)
+            ?? throw new NotFoundException("Teacher", id);
 
-    public Task<List<Teacher>> ListAsync(CancellationToken ct)
-        => _repo.ListAsync(ct);
+        return new TeacherResult(teacher.FirstName, teacher.LastName, teacher.Email, teacher.Expertise);
+    }
+        
+    public async Task<List<TeacherResult>> ListAsync(CancellationToken ct)
+    {
+        var teachers = await _repo.ListAsync(ct);
+
+        return teachers.Select(t => new TeacherResult(t.FirstName, t.LastName, t.Email, t.Expertise)).ToList();
+    }
 
     public async Task UpdateAsync(int id, UpdateTeacherRequest request, CancellationToken ct)
     {

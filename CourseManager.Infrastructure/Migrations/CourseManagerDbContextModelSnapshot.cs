@@ -79,6 +79,10 @@ namespace CourseManager.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("LocationId");
+
                     b.ToTable("CourseInstances", (string)null);
                 });
 
@@ -228,6 +232,25 @@ namespace CourseManager.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Enrollments", (string)null);
+                });
+
+            modelBuilder.Entity("CourseManager.Domain.Entities.CourseInstance", b =>
+                {
+                    b.HasOne("CourseManager.Domain.Entities.Course", "CourseDetail")
+                        .WithMany()
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CourseManager.Domain.Entities.Location", "LocationDetail")
+                        .WithMany()
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("CourseDetail");
+
+                    b.Navigation("LocationDetail");
                 });
 
             modelBuilder.Entity("CourseManager.Domain.Entities.CourseInstanceTeacher", b =>

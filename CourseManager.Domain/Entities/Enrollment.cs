@@ -1,6 +1,4 @@
 ﻿using CourseManager.Domain.Enums;
-using CourseManager.Domain.Exceptions;
-using System;
 
 public sealed class Enrollment
 {
@@ -18,6 +16,7 @@ public sealed class Enrollment
         CourseInstanceId = courseInstanceId;
         ParticipantId = participantId;
         RegisteredAtUtc = DateTime.UtcNow;
+        ModifiedAtUtc = RegisteredAtUtc;
         Status = EnrollmentStatus.Registered;
 
     }
