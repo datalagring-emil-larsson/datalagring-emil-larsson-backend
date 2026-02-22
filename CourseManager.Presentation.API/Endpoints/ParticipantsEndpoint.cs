@@ -8,8 +8,10 @@ public static class ParticipantsEndpoint
 {
     public static IEndpointRouteBuilder MapParticipantsEndpoints(this IEndpointRouteBuilder app)
     {
+        var group = app.MapGroup("/participants")
+            .WithTags("Participants");
 
-        app.MapPost("/participants", async (
+        group.MapPost("/", async (
             CreateParticipantRequest request,
             ParticipantService service,
             CancellationToken ct) =>
@@ -18,7 +20,7 @@ public static class ParticipantsEndpoint
             return Results.Created($"/participants/{id}", new { id });
         });
 
-        app.MapGet("/participants", async (
+        group.MapGet("/list", async (
             ParticipantService service,
             CancellationToken ct) =>
         {
@@ -26,7 +28,7 @@ public static class ParticipantsEndpoint
             return Results.Ok(participants);
         });
 
-        app.MapGet("/participants/{id:guid}", async (
+        group.MapGet("/{id:guid}", async (
             Guid id,
             ParticipantService service, CancellationToken ct) =>
         {
@@ -34,7 +36,7 @@ public static class ParticipantsEndpoint
             return Results.Ok(participant);
         });
 
-        app.MapPut("/participant/{id:guid}", async (
+        group.MapPut("/{id:guid}", async (
             Guid id,
             UpdateParticipantRequest request,
             ParticipantService service,
@@ -44,7 +46,7 @@ public static class ParticipantsEndpoint
             return Results.NoContent();
         });
 
-        app.MapDelete("/participants/{id:guid}", async (
+        group.MapDelete("/{id:guid}", async (
             Guid id,
             ParticipantService service,
             CancellationToken ct) =>
