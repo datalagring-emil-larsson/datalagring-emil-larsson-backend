@@ -1,4 +1,6 @@
-﻿namespace CourseManager.Application.Features.Enrollments.EnrollParticipant;
+﻿using CourseManager.Domain.Entities;
 
-public sealed record EnrollParticipantRequest(Guid CourseInstanceId, Guid ParticipantId);
+namespace CourseManager.Application.Features.Enrollments.EnrollParticipant;
+
+public sealed record EnrollParticipantRequest(Guid courseInstanceId, Guid ParticipantId);
 

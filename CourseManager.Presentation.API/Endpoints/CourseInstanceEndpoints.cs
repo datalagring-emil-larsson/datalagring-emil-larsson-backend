@@ -13,28 +13,24 @@ public static class CourseInstancesEndpoints
             return Results.Created($"/course-instances/{id}", new { id });
         });
 
-        // READ ALL
         app.MapGet("/course-instances", async (CourseInstanceService service, CancellationToken ct) =>
         {
             var items = await service.ListAsync(ct);
             return Results.Ok(items);
         });
 
-        // READ ONE
         app.MapGet("/course-instances/{id:guid}", async (Guid id, CourseInstanceService service, CancellationToken ct) =>
         {
             var ci = await service.GetByIdAsync(id, ct);
             return Results.Ok(ci);
         });
 
-        // UPDATE
         app.MapPut("/course-instances/{id:guid}", async (Guid id, UpdateCourseInstanceRequest request, CourseInstanceService service, CancellationToken ct) =>
         {
             await service.UpdateAsync(id, request, ct);
             return Results.NoContent();
         });
 
-        // DELETE
         app.MapDelete("/course-instances/{id:guid}", async (Guid id, CourseInstanceService service, CancellationToken ct) =>
         {
             await service.DeleteAsync(id, ct);

@@ -1,4 +1,6 @@
 ﻿using CourseManager.Domain.Enums;
+using CourseManager.Domain.Exceptions;
+using System;
 
 public sealed class Enrollment
 {
@@ -21,4 +23,6 @@ public sealed class Enrollment
 
     public void Cancel() => Status = EnrollmentStatus.Cancelled;
     public void MarkAttended() => Status = EnrollmentStatus.Attended;
+
+    
 }
