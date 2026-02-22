@@ -21,12 +21,20 @@ public sealed class LocationService
         return location.Id;
     }
 
-    public async Task<Location> GetByIdAsync(int id, CancellationToken ct)
-        => await _repo.GetByIdAsync(id, ct)
-        ?? throw new NotFoundException("Location", id);
+    public async Task<LocationResult> GetByIdAsync(int id, CancellationToken ct)
+    {
+        var location = await _repo.GetByIdAsync(id, ct)
+            ?? throw new NotFoundException("Location", id);
 
-    public Task<List<Location>> ListAsync(CancellationToken ct)
-        => _repo.ListAsync(ct);
+        return new LocationResult(location.Id, location.Classroom, location.Address, location.City);
+    }
+    public async Task<List<LocationResult>> ListAsync(CancellationToken ct)
+    {
+        var locations = await _repo.ListAsync(ct);
+
+        return locations.Select(l => new LocationResult(l.Id, l.Classroom, l.Address, l.City)).ToList();
+    }
+        
 
     public async Task UpdateAsync(int id, UpdateLocationRequest request, CancellationToken ct)
     {

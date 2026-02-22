@@ -10,12 +10,14 @@ public sealed class CourseInstanceService
     private readonly IBaseRepository<CourseInstance> _courseInstance;
     private readonly IBaseRepository<Course> _course;
     private readonly IBaseRepository<Location> _location;
+    private readonly ICourseInstanceRepository _courseInstanceRepository;
 
-    public CourseInstanceService(IBaseRepository<CourseInstance> courseInstance, IBaseRepository<Course> course, IBaseRepository<Location> location)
+    public CourseInstanceService(IBaseRepository<CourseInstance> courseInstance, IBaseRepository<Course> course, IBaseRepository<Location> location, ICourseInstanceRepository courseInstanceRepository)
     {
         _courseInstance = courseInstance;
         _course = course;
         _location = location;
+        _courseInstanceRepository = courseInstanceRepository;
     }
 
     public async Task<int> CreateAsync(CreateCourseInstanceRequest request, CancellationToken ct)
@@ -34,12 +36,32 @@ public sealed class CourseInstanceService
         return ci.Id;
     }
 
-    public async Task<CourseInstance> GetByIdAsync(int id, CancellationToken ct)
-        => await _courseInstance.GetByIdAsync(id, ct)
-        ?? throw new NotFoundException("CourseInstance", id);
+    public async Task<CourseInstanceResult> GetByIdAsync(int id, CancellationToken ct)
+    {
+        var ci = await _courseInstanceRepository.GetWithCourseAndLocationAsync(id, ct)
+            ?? throw new NotFoundException("CourseInstance", id);
 
-    public Task<List<CourseInstance>> ListAsync(CancellationToken ct)
-        => _courseInstance.ListAsync(ct);
+        return new CourseInstanceResult(
+            ci.Id, 
+            ci.CourseId, new CourseSummaryResult(ci.CourseDetail.Id, ci.CourseDetail.CourseCode, ci.CourseDetail.Title), 
+            ci.LocationId, new LocationSummaryResult(ci.LocationDetail.Id, ci.LocationDetail.Classroom, ci.LocationDetail.Address, ci.LocationDetail.City), 
+            ci.StartDateUtc, ci.EndDateUtc, ci.Capacity
+        );
+    }
+
+    public async Task<List<CourseInstanceResult>> ListAsync(CancellationToken ct)
+    {
+        var instances = await _courseInstanceRepository.ListWithCourseAndLocationAsync(ct);
+
+        return instances.Select(ci => new CourseInstanceResult(
+            ci.Id,
+            ci.CourseId, new CourseSummaryResult(ci.CourseDetail.Id, ci.CourseDetail.CourseCode, ci.CourseDetail.Title),
+            ci.LocationId, new LocationSummaryResult(ci.LocationDetail.Id, ci.LocationDetail.Classroom, ci.LocationDetail.Address, ci.LocationDetail.City),
+            ci.StartDateUtc, ci.EndDateUtc, ci.Capacity
+            )).ToList();
+
+        
+    }
 
     public async Task UpdateAsync(int id, UpdateCourseInstanceRequest request, CancellationToken ct)
     {

@@ -6,28 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CourseManager.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreateGUIDtoINT : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "CourseInstances",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CourseId = table.Column<int>(type: "int", nullable: false),
-                    LocationId = table.Column<int>(type: "int", nullable: false),
-                    StartDateUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDateUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Capacity = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CourseInstances", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Courses",
                 columns: table => new
@@ -91,6 +74,35 @@ namespace CourseManager.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CourseInstances",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CourseId = table.Column<int>(type: "int", nullable: false),
+                    LocationId = table.Column<int>(type: "int", nullable: false),
+                    StartDateUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDateUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Capacity = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CourseInstances", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CourseInstances_Courses_CourseId",
+                        column: x => x.CourseId,
+                        principalTable: "Courses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_CourseInstances_Locations_LocationId",
+                        column: x => x.LocationId,
+                        principalTable: "Locations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CourseInstanceTeacher",
                 columns: table => new
                 {
@@ -132,6 +144,16 @@ namespace CourseManager.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_CourseInstances_CourseId",
+                table: "CourseInstances",
+                column: "CourseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CourseInstances_LocationId",
+                table: "CourseInstances",
+                column: "LocationId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CourseInstanceTeacher_CourseInstanceId_TeacherId",
                 table: "CourseInstanceTeacher",
                 columns: new[] { "CourseInstanceId", "TeacherId" },
@@ -168,13 +190,7 @@ namespace CourseManager.Infrastructure.Migrations
                 name: "CourseInstanceTeacher");
 
             migrationBuilder.DropTable(
-                name: "Courses");
-
-            migrationBuilder.DropTable(
                 name: "Enrollments");
-
-            migrationBuilder.DropTable(
-                name: "Locations");
 
             migrationBuilder.DropTable(
                 name: "Participants");
@@ -184,6 +200,12 @@ namespace CourseManager.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "CourseInstances");
+
+            migrationBuilder.DropTable(
+                name: "Courses");
+
+            migrationBuilder.DropTable(
+                name: "Locations");
         }
     }
 }

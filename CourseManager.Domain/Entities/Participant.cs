@@ -1,4 +1,5 @@
-﻿using CourseManager.Domain.Exceptions;
+﻿using CourseManager.Domain.Enums;
+using CourseManager.Domain.Exceptions;
 
 namespace CourseManager.Domain.Entities;
 

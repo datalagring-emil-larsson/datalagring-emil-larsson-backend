@@ -24,19 +24,19 @@ public static class EnrollmentEndpoints
             return Results.Ok(enrollments);
         });
 
-        group.MapPut("/{id:guid}/cancel", async (int id, EnrollmentService service, CancellationToken ct) =>
+        group.MapPut("/{id:int}/cancel", async (int id, EnrollmentService service, CancellationToken ct) =>
         {
             await service.MarkAttendedAsync(id, ct);
             return Results.NoContent();
         });
 
-        group.MapPut("/{id:guid}/attended", async (int id, EnrollmentService service, CancellationToken ct) =>
+        group.MapPut("/{id:int}/attended", async (int id, EnrollmentService service, CancellationToken ct) =>
         {
             await service.MarkAttendedAsync(id, ct);
             return Results.NoContent();
         });
 
-        group.MapDelete("/{id:guid}", async (int id, EnrollmentService service, CancellationToken ct) =>
+        group.MapDelete("/{id:int}", async (int id, EnrollmentService service, CancellationToken ct) =>
         {
             await service.DeleteAsync(id, ct);
             return Results.NoContent();
@@ -47,7 +47,7 @@ public static class EnrollmentEndpoints
 
     }
 
-    public sealed record EnrollRequest(Guid ParticipantId);
+    public sealed record EnrollRequest(int ParticipantId);
 
 }
 
