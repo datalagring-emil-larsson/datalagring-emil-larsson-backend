@@ -7,31 +7,34 @@ public static class CourseInstancesEndpoints
 {
     public static IEndpointRouteBuilder MapCourseInstanceEndpoints(this IEndpointRouteBuilder app)
     {
-        app.MapPost("/course-instances", async (CreateCourseInstanceRequest request, CourseInstanceService service, CancellationToken ct) =>
+        var group = app.MapGroup("/course-Instances")
+            .WithTags("Course Instances");
+
+        group.MapPost("/", async (CreateCourseInstanceRequest request, CourseInstanceService service, CancellationToken ct) =>
         {
             var id = await service.CreateAsync(request, ct);
             return Results.Created($"/course-instances/{id}", new { id });
         });
 
-        app.MapGet("/course-instances", async (CourseInstanceService service, CancellationToken ct) =>
+        group.MapGet("/", async (CourseInstanceService service, CancellationToken ct) =>
         {
             var items = await service.ListAsync(ct);
             return Results.Ok(items);
         });
 
-        app.MapGet("/course-instances/{id:guid}", async (Guid id, CourseInstanceService service, CancellationToken ct) =>
+        group.MapGet("/{id:guid}", async (Guid id, CourseInstanceService service, CancellationToken ct) =>
         {
             var ci = await service.GetByIdAsync(id, ct);
             return Results.Ok(ci);
         });
 
-        app.MapPut("/course-instances/{id:guid}", async (Guid id, UpdateCourseInstanceRequest request, CourseInstanceService service, CancellationToken ct) =>
+        group.MapPut("/{id:guid}", async (Guid id, UpdateCourseInstanceRequest request, CourseInstanceService service, CancellationToken ct) =>
         {
             await service.UpdateAsync(id, request, ct);
             return Results.NoContent();
         });
 
-        app.MapDelete("/course-instances/{id:guid}", async (Guid id, CourseInstanceService service, CancellationToken ct) =>
+        group.MapDelete("/{id:guid}", async (Guid id, CourseInstanceService service, CancellationToken ct) =>
         {
             await service.DeleteAsync(id, ct);
             return Results.NoContent();
