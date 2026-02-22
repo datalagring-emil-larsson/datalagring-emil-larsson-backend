@@ -12,7 +12,7 @@ public sealed class CourseConfig : IEntityTypeConfiguration<Course>
         builder.HasKey(c => c.Id);
 
         builder.Property(c => c.Id)
-            .ValueGeneratedNever();
+            .ValueGeneratedOnAdd();
 
         builder.Property(c => c.CourseCode)
             .HasMaxLength(20)

@@ -10,8 +10,8 @@ public static class CourseInstanceTeacherEndpoints
             .WithTags("Assign/Unassign teacher");
 
         group.MapPost("/AssignTeacher", async (
-            Guid courseInstanceId, 
-            Guid teacherId, 
+            int courseInstanceId, 
+            int teacherId, 
             CourseInstanceTeacherService service, 
             CancellationToken ct) =>
         {
@@ -20,8 +20,8 @@ public static class CourseInstanceTeacherEndpoints
         });
 
         group.MapDelete("/UnassignTeacher", async (
-            Guid courseInstanceId,
-            Guid teacherId, 
+            int courseInstanceId,
+            int teacherId, 
             CourseInstanceTeacherService service, 
             CancellationToken ct) =>
         {
@@ -29,7 +29,7 @@ public static class CourseInstanceTeacherEndpoints
             return Results.NoContent();
         });
 
-        group.MapGet("/Teachers-CourseInstance-List", async (Guid courseInstanceId, CourseInstanceTeacherService service, CancellationToken ct) =>
+        group.MapGet("/Teachers-CourseInstance-List", async (int courseInstanceId, CourseInstanceTeacherService service, CancellationToken ct) =>
         {
             var teacherIds = await service.ListTeacherIdAsync(courseInstanceId, ct);
             return Results.Ok(teacherIds);

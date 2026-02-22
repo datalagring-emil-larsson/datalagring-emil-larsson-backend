@@ -18,7 +18,7 @@ public sealed class CourseInstanceService
         _location = location;
     }
 
-    public async Task<Guid> CreateAsync(CreateCourseInstanceRequest request, CancellationToken ct)
+    public async Task<int> CreateAsync(CreateCourseInstanceRequest request, CancellationToken ct)
     {
         if (await _course.GetByIdAsync(request.CourseId, ct) is null)
             throw new NotFoundException("Course", request.CourseId);
@@ -34,14 +34,14 @@ public sealed class CourseInstanceService
         return ci.Id;
     }
 
-    public async Task<CourseInstance> GetByIdAsync(Guid id, CancellationToken ct)
+    public async Task<CourseInstance> GetByIdAsync(int id, CancellationToken ct)
         => await _courseInstance.GetByIdAsync(id, ct)
         ?? throw new NotFoundException("CourseInstance", id);
 
     public Task<List<CourseInstance>> ListAsync(CancellationToken ct)
         => _courseInstance.ListAsync(ct);
 
-    public async Task UpdateAsync(Guid id, UpdateCourseInstanceRequest request, CancellationToken ct)
+    public async Task UpdateAsync(int id, UpdateCourseInstanceRequest request, CancellationToken ct)
     {
         var ci = await _courseInstance.GetByIdAsync(id, ct)
             ?? throw new NotFoundException("CourseInstance", id);
@@ -57,7 +57,7 @@ public sealed class CourseInstanceService
         await _courseInstance.SaveChangesAsync(ct);
     }
 
-    public async Task DeleteAsync(Guid id, CancellationToken ct)
+    public async Task DeleteAsync(int id, CancellationToken ct)
     {
         var ci = await _courseInstance.GetByIdAsync(id, ct)
             ?? throw new NotFoundException("CourseInstace", id);

@@ -4,7 +4,7 @@ namespace CourseManager.Domain.Entities;
 
 public sealed class Location
 {
-    public Guid Id { get; private set; }
+    public int Id { get; private set; }
     public string Classroom { get; private set; } = null!;
     public string Address { get; private set; } = null!;
     public string City { get; private set; } = null!;
@@ -13,8 +13,8 @@ public sealed class Location
 
     public Location(string classRoom, string address, string city)
     {
-        Id = Guid.NewGuid();
         Update(classRoom, address, city);
+
     }
 
     public void Update(string classRoom, string address, string city)

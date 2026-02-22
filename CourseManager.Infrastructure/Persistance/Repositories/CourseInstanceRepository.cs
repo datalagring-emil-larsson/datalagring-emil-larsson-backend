@@ -11,21 +11,21 @@ public sealed class CourseInstanceRepository : BaseRepository<CourseInstance>, I
     {
     }        
 
-    public Task<CourseInstance?> GetWithEnrollmentsAsync(Guid id, CancellationToken ct)
+    public Task<CourseInstance?> GetWithEnrollmentsAsync(int id, CancellationToken ct)
         =>
         _context.CourseInstances
         .Include(ci => ci.Teachers)
         .Include(ci => ci.Enrollments)
         .SingleOrDefaultAsync(ci => ci.Id == id, ct);
 
-    public async Task<CourseInstance?> GetWithEnrollmentsByEnrollmentIdAsync(Guid enrollmentId, CancellationToken ct)
+    public async Task<CourseInstance?> GetWithEnrollmentsByEnrollmentIdAsync(int enrollmentId, CancellationToken ct)
     {
         var courseInstanceId = await _context.Enrollments
             .Where(e => e.Id == enrollmentId)
             .Select(e => e.CourseInstanceId)
             .SingleOrDefaultAsync();
 
-        if (courseInstanceId == Guid.Empty) return null;
+        if (courseInstanceId == 0) return null; // Changed from Guid.Empty to 0 for int type
 
         return await _context.CourseInstances
             .Include(ci => ci.Enrollments)

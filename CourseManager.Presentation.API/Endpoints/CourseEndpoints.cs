@@ -24,19 +24,19 @@ public static class CourseEndpoints
             return Results.Ok(courses);
         });
 
-        group.MapGet("/{id:guid}", async (Guid id, CourseService service, CancellationToken ct) =>
+        group.MapGet("/{id:guid}", async (int id, CourseService service, CancellationToken ct) =>
         {
             var course = await service.GetByIdAsync(id, ct);
             return Results.Ok(course);
         });
 
-        group.MapPut("/{id:guid}", async (Guid id, UpdateCourseRequest request, CourseService service, CancellationToken ct) =>
+        group.MapPut("/{id:guid}", async (int id, UpdateCourseRequest request, CourseService service, CancellationToken ct) =>
         {
             await service.UpdateAsync(id, request, ct);
             return Results.NoContent();
         });
 
-        group.MapDelete("{id:guid}", async (Guid id, CourseService service, CancellationToken ct) =>
+        group.MapDelete("{id:guid}", async (int id, CourseService service, CancellationToken ct) =>
         {
             await service.DeleteAsync(id, ct);
             return Results.NoContent();

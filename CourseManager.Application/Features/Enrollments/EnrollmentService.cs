@@ -17,7 +17,7 @@ public sealed class EnrollmentService
         _participants = participants;
     }
 
-    public async Task<Guid> EnrollAsync(EnrollParticipantRequest request, DateTime nowUtc, CancellationToken ct)
+    public async Task<int> EnrollAsync(EnrollParticipantRequest request, DateTime nowUtc, CancellationToken ct)
     {
         var ci = await _courseInstances.GetWithEnrollmentsAsync(request.courseInstanceId, ct)
             ?? throw new NotFoundException("CourseInstance", request.courseInstanceId);
@@ -25,13 +25,13 @@ public sealed class EnrollmentService
         if (await _participants.GetByIdAsync(request.ParticipantId, ct) is null)
             throw new NotFoundException("Participant", request.ParticipantId);
 
-        var enrollment = ci.Enroll(request.ParticipantId, nowUtc);
+        var enrollment = ci.Enroll(request.ParticipantId);
 
         await _courseInstances.SaveChangesAsync(ct);
         return enrollment.Id;
     }
 
-    public async Task<List<object>> ListByCourseInstanceAsync(Guid courseInstanceId, CancellationToken ct)
+    public async Task<List<object>> ListByCourseInstanceAsync(int courseInstanceId, CancellationToken ct)
     {
         var ci = await _courseInstances.GetWithEnrollmentsAsync(courseInstanceId, ct)
             ?? throw new NotFoundException("CourseInstance", courseInstanceId);
@@ -46,33 +46,33 @@ public sealed class EnrollmentService
         }).ToList();
     }
 
-    public async Task CancelAsync(Guid EnrollmentId, CancellationToken ct)
+    public async Task CancelAsync(int enrollmentId, CancellationToken ct)
     {
-        var ci = await FindCourseInstanceContainingEnrollment(EnrollmentId, ct);
-        var enrollment = ci.Enrollments.Single(x => x.Id == EnrollmentId);
+        var ci = await FindCourseInstanceContainingEnrollment(enrollmentId, ct);
+        var enrollment = ci.Enrollments.Single(x => x.Id == enrollmentId);
 
         enrollment.Cancel();
         await _courseInstances.SaveChangesAsync(ct);
     }
 
-    public async Task MarkAttendedAsync(Guid EnrollmentId, CancellationToken ct)
+    public async Task MarkAttendedAsync(int enrollmentId, CancellationToken ct)
     {
-        var ci = await FindCourseInstanceContainingEnrollment(EnrollmentId, ct);
-        var enrollment = ci.Enrollments.Single(x => x.Id == EnrollmentId);
+        var ci = await FindCourseInstanceContainingEnrollment(enrollmentId, ct);
+        var enrollment = ci.Enrollments.Single(x => x.Id == enrollmentId);
 
         enrollment.MarkAttended();
         await _courseInstances.SaveChangesAsync(ct);
     }
-    public async Task DeleteAsync(Guid EnrollmentId, CancellationToken ct)
+    public async Task DeleteAsync(int enrollmentId, CancellationToken ct)
     {
-        var ci = await FindCourseInstanceContainingEnrollment(EnrollmentId, ct);
-        var enrollment = ci.Enrollments.Single(x => x.Id == EnrollmentId);
+        var ci = await FindCourseInstanceContainingEnrollment(enrollmentId, ct);
+        var enrollment = ci.Enrollments.Single(x => x.Id == enrollmentId);
 
         ci.Enrollments.Remove(enrollment);
         await _courseInstances.SaveChangesAsync(ct);
     }
 
-    private async Task<CourseInstance> FindCourseInstanceContainingEnrollment(Guid enrollmentId, CancellationToken ct)
+    private async Task<CourseInstance> FindCourseInstanceContainingEnrollment(int enrollmentId, CancellationToken ct)
     {
         var ci = await _courseInstances.GetWithEnrollmentsByEnrollmentIdAsync(enrollmentId, ct);
         return ci ?? throw new NotFoundException("Enrollment", enrollmentId);

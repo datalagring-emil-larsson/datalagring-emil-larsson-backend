@@ -15,7 +15,7 @@ public sealed class CourseInstanceTeacherService
         _teachers = teachers;
     }
 
-    public async Task AssignTeacher(Guid courseInstanceId, Guid TeacherId, CancellationToken ct)
+    public async Task AssignTeacher(int courseInstanceId, int TeacherId, CancellationToken ct)
     {
         var ci = await _courseInstances.GetWithEnrollmentsAsync(courseInstanceId, ct)
             ?? throw new NotFoundException("CourseInstance", courseInstanceId);
@@ -28,7 +28,7 @@ public sealed class CourseInstanceTeacherService
         await _courseInstances.SaveChangesAsync(ct);
     }
 
-    public async Task UnassignTeacher(Guid courseInstanceId, Guid TeacherId, CancellationToken ct)
+    public async Task UnassignTeacher(int courseInstanceId, int TeacherId, CancellationToken ct)
     {
         var ci = await _courseInstances.GetWithEnrollmentsAsync(courseInstanceId, ct)
             ?? throw new NotFoundException("CourseInstance", courseInstanceId);
@@ -38,7 +38,7 @@ public sealed class CourseInstanceTeacherService
         await _courseInstances.SaveChangesAsync(ct);
     }
 
-    public async Task<List<Guid>> ListTeacherIdAsync(Guid courseInstanceId, CancellationToken ct)
+    public async Task<List<int>> ListTeacherIdAsync(int courseInstanceId, CancellationToken ct)
     {
         var ci = await _courseInstances.GetWithEnrollmentsAsync(courseInstanceId, ct)
             ?? throw new NotFoundException("CourseInstance", courseInstanceId);

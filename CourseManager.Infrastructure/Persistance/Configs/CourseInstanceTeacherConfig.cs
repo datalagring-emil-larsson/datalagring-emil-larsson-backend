@@ -9,6 +9,7 @@ public sealed class CourseInstanceTeacherConfig : IEntityTypeConfiguration<Cours
     public void Configure(EntityTypeBuilder<CourseInstanceTeacher> builder)
     {
         builder.ToTable("CourseInstanceTeacher");
+
         builder.HasKey(cit => new {cit.CourseInstanceId, cit.TeacherId});
 
         builder.Property(cit => cit.CourseInstanceId)

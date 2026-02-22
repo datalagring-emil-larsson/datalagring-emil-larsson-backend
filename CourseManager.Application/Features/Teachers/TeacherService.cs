@@ -11,9 +11,9 @@ public sealed class TeacherService
 
     public TeacherService(IBaseRepository<Teacher> repo) => _repo = repo;
 
-    public async Task<Guid> CreateAsync(CreateTeacherRequest request, CancellationToken ct)
+    public async Task<int> CreateAsync(CreateTeacherRequest request, CancellationToken ct)
     {
-        var teacher = new Teacher(Guid.NewGuid(), request.FirstName, request.LastName, request.Email, request.Expertise);
+        var teacher = new Teacher(request.FirstName, request.LastName, request.Email, request.Expertise);
 
         await _repo.AddAsync(teacher, ct);
         await _repo.SaveChangesAsync(ct);
@@ -21,14 +21,14 @@ public sealed class TeacherService
         return teacher.Id;
     }
 
-    public async Task<Teacher> GetByIdAsync(Guid id, CancellationToken ct) 
+    public async Task<Teacher> GetByIdAsync(int id, CancellationToken ct) 
         => await _repo.GetByIdAsync(id, ct)
         ?? throw new NotFoundException("Teacher", id);
 
     public Task<List<Teacher>> ListAsync(CancellationToken ct)
         => _repo.ListAsync(ct);
 
-    public async Task UpdateAsync(Guid id, UpdateTeacherRequest request, CancellationToken ct)
+    public async Task UpdateAsync(int id, UpdateTeacherRequest request, CancellationToken ct)
     {
         var teacher = await _repo.GetByIdAsync(id, ct)
             ?? throw new NotFoundException("Teacher", id);
@@ -37,7 +37,7 @@ public sealed class TeacherService
         await _repo.SaveChangesAsync(ct);
     }
 
-    public async Task DeleteAsync(Guid id, CancellationToken ct)
+    public async Task DeleteAsync(int id, CancellationToken ct)
     {
         var teacher = await _repo.GetByIdAsync(id, ct)
             ?? throw new NotFoundException("Teacher", id);

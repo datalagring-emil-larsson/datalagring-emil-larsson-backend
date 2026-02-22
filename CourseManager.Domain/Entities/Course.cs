@@ -5,7 +5,7 @@ namespace CourseManager.Domain.Entities;
 
 public sealed class Course
 {
-    public Guid Id { get; set; }
+    public int Id { get; private set; }
     public string CourseCode { get; set; } = null!;
     public string Title { get; set; } = null!;
     public string Description { get; set; } = null!;
@@ -15,7 +15,6 @@ public sealed class Course
 
     public Course(string courseCode, string title, string description)
     {
-        Id = Guid.NewGuid();
         Update(courseCode, title, description);
 
     }

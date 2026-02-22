@@ -11,12 +11,18 @@ public sealed class EnrollmentConfig : IEntityTypeConfiguration<Enrollment>
         builder.HasKey(e => e.Id);
 
         builder.Property(e => e.Id)
-            .ValueGeneratedNever();
+            .ValueGeneratedOnAdd();
 
         builder.Property(e => e.ParticipantId)
             .IsRequired();
 
+        builder.Property(e => e.CourseInstanceId)
+            .IsRequired();
+
         builder.Property(e => e.RegisteredAtUtc)
+            .IsRequired();
+
+        builder.Property(e => e.ModifiedAtUtc)
             .IsRequired();
 
         builder.Property(e => e.Status)

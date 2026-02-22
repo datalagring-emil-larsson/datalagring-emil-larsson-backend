@@ -12,7 +12,7 @@ public sealed class ParticipantService
 
     public ParticipantService(IBaseRepository<Participant> repo) => _repo = repo;
 
-    public async Task<Guid> CreateAsync(CreateParticipantRequest request, CancellationToken ct)
+    public async Task<int> CreateAsync(CreateParticipantRequest request, CancellationToken ct)
     {
         var participant = new Participant(request.FirstName, request.LastName, request.Email, request?.PhoneNumber);
         await _repo.AddAsync(participant, ct);
@@ -20,14 +20,14 @@ public sealed class ParticipantService
         return participant.Id;
     }
 
-    public async Task<Participant> GetByIdAsync(Guid id, CancellationToken ct)
+    public async Task<Participant> GetByIdAsync(int id, CancellationToken ct)
         => await _repo.GetByIdAsync(id, ct)
         ?? throw new NotFoundException("Participant", id);
 
     public Task<List<Participant>> ListAsync(CancellationToken ct)
         => _repo.ListAsync(ct);
 
-    public async Task UpdateAsync(Guid id, UpdateParticipantRequest request, CancellationToken ct)
+    public async Task UpdateAsync(int id, UpdateParticipantRequest request, CancellationToken ct)
     {
         var participant = await _repo.GetByIdAsync(id, ct)
             ?? throw new NotFoundException("Participant", id);
@@ -37,7 +37,7 @@ public sealed class ParticipantService
         await _repo.SaveChangesAsync(ct);
     }
 
-    public async Task DeleteAsync(Guid id, CancellationToken ct)
+    public async Task DeleteAsync(int id, CancellationToken ct)
     {
         var participant = await _repo.GetByIdAsync(id, ct)
             ?? throw new NotFoundException("Participant", id);

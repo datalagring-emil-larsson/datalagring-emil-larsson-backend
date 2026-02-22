@@ -12,7 +12,7 @@ public sealed class CourseInstanceConfig : IEntityTypeConfiguration<CourseInstan
         builder.HasKey(ci => ci.Id);
 
         builder.Property(ci => ci.Id)
-            .ValueGeneratedNever();
+            .ValueGeneratedOnAdd();
 
         builder.Property(ci => ci.Capacity)
             .IsRequired();

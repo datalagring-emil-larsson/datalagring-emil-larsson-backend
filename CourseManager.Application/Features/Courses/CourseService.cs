@@ -11,7 +11,7 @@ public sealed class CourseService
 
     public CourseService(IBaseRepository<Course> repo) => _repo = repo;
 
-    public async Task<Guid> CreateAsync(CreateCourseRequest request, CancellationToken ct)
+    public async Task<int> CreateAsync(CreateCourseRequest request, CancellationToken ct)
     {
         var course = new Course(request.CourseCode, request.Title, request.Description);
 
@@ -21,14 +21,14 @@ public sealed class CourseService
         return course.Id;
     }
 
-    public async Task<Course> GetByIdAsync(Guid id, CancellationToken ct)
+    public async Task<Course> GetByIdAsync(int id, CancellationToken ct)
         => await _repo.GetByIdAsync(id, ct)
         ?? throw new NotFoundException("Course", id);
 
     public Task<List<Course>> ListAsync(CancellationToken ct) 
         => _repo.ListAsync(ct);
 
-    public async Task UpdateAsync(Guid id, UpdateCourseRequest request, CancellationToken ct)
+    public async Task UpdateAsync(int id, UpdateCourseRequest request, CancellationToken ct)
     {
         var course = await _repo.GetByIdAsync(id, ct)
             ?? throw new NotFoundException("Course", id);
@@ -37,7 +37,7 @@ public sealed class CourseService
         await _repo.SaveChangesAsync(ct);
     }
 
-    public async Task DeleteAsync(Guid id, CancellationToken ct)
+    public async Task DeleteAsync(int id, CancellationToken ct)
     {
         var course = await _repo.GetByIdAsync(id, ct)
             ?? throw new NotFoundException("Course", id);

@@ -14,7 +14,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         _set = context.Set<TEntity>();
     }
 
-    public virtual Task<TEntity?> GetByIdAsync(Guid id, CancellationToken ct)
+    public virtual Task<TEntity?> GetByIdAsync(int id, CancellationToken ct)
         => _set.FindAsync([id], ct).AsTask();
 
     public virtual Task<List<TEntity>> ListAsync(CancellationToken ct)
