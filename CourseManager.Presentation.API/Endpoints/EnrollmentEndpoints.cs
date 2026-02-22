@@ -18,25 +18,25 @@ public static class EnrollmentEndpoints
             return Results.Created($"/enrollments/{enrollmentId}", new { enrollmentId });
         });
 
-        group.MapGet("/list", async (Guid courseInstanceId, EnrollmentService service, CancellationToken ct) =>
+        group.MapGet("/list", async (int courseInstanceId, EnrollmentService service, CancellationToken ct) =>
         {
             var enrollments = await service.ListByCourseInstanceAsync(courseInstanceId, ct);
             return Results.Ok(enrollments);
         });
 
-        group.MapPut("/{id:guid}/cancel", async (Guid id, EnrollmentService service, CancellationToken ct) =>
+        group.MapPut("/{id:guid}/cancel", async (int id, EnrollmentService service, CancellationToken ct) =>
         {
             await service.MarkAttendedAsync(id, ct);
             return Results.NoContent();
         });
 
-        group.MapPut("/{id:guid}/attended", async (Guid id, EnrollmentService service, CancellationToken ct) =>
+        group.MapPut("/{id:guid}/attended", async (int id, EnrollmentService service, CancellationToken ct) =>
         {
             await service.MarkAttendedAsync(id, ct);
             return Results.NoContent();
         });
 
-        group.MapDelete("/{id:guid}", async (Guid id, EnrollmentService service, CancellationToken ct) =>
+        group.MapDelete("/{id:guid}", async (int id, EnrollmentService service, CancellationToken ct) =>
         {
             await service.DeleteAsync(id, ct);
             return Results.NoContent();

@@ -4,7 +4,7 @@ namespace CourseManager.Domain.Entities;
 
 public sealed class Participant
 {
-    public Guid Id { get; private set; }
+    public int Id { get; private set; }
     public string FirstName { get; private set; } = null!;
     public string LastName { get; private set; } = null!;
     public string Email { get; private set; } = null!;
@@ -14,8 +14,8 @@ public sealed class Participant
 
     public Participant(string firstName, string lastName, string email, string? phoneNumber = null)
     {
-        Id = Guid.NewGuid();
-        Update(firstName, lastName, email, phoneNumber);        
+        Update(firstName, lastName, email, phoneNumber);    
+        
     }
 
     public void Update(string firstName, string lastName, string email, string? phoneNumber = null)

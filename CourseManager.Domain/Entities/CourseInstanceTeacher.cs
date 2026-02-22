@@ -2,12 +2,12 @@
 
 public sealed class CourseInstanceTeacher
 {
-    public Guid CourseInstanceId { get; private set; }
-    public Guid TeacherId { get; private set; }
+    public int CourseInstanceId { get; private set; }
+    public int TeacherId { get; private set; }
 
     private CourseInstanceTeacher() { }
 
-    public CourseInstanceTeacher(Guid courseInstanceId, Guid teacherId)
+    public CourseInstanceTeacher(int courseInstanceId, int teacherId)
     {
         CourseInstanceId = courseInstanceId;
         TeacherId = teacherId;

@@ -24,8 +24,11 @@ namespace CourseManager.Infrastructure.Migrations
 
             modelBuilder.Entity("CourseManager.Domain.Entities.Course", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CourseCode")
                         .IsRequired()
@@ -53,20 +56,23 @@ namespace CourseManager.Infrastructure.Migrations
 
             modelBuilder.Entity("CourseManager.Domain.Entities.CourseInstance", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Capacity")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("CourseId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("EndDateUtc")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("LocationId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("LocationId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("StartDateUtc")
                         .HasColumnType("datetime2");
@@ -78,11 +84,11 @@ namespace CourseManager.Infrastructure.Migrations
 
             modelBuilder.Entity("CourseManager.Domain.Entities.CourseInstanceTeacher", b =>
                 {
-                    b.Property<Guid>("CourseInstanceId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("CourseInstanceId")
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("TeacherId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("TeacherId")
+                        .HasColumnType("int");
 
                     b.HasKey("CourseInstanceId", "TeacherId");
 
@@ -94,8 +100,11 @@ namespace CourseManager.Infrastructure.Migrations
 
             modelBuilder.Entity("CourseManager.Domain.Entities.Location", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -119,8 +128,11 @@ namespace CourseManager.Infrastructure.Migrations
 
             modelBuilder.Entity("CourseManager.Domain.Entities.Participant", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -150,8 +162,11 @@ namespace CourseManager.Infrastructure.Migrations
 
             modelBuilder.Entity("CourseManager.Domain.Entities.Teacher", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -184,14 +199,20 @@ namespace CourseManager.Infrastructure.Migrations
 
             modelBuilder.Entity("Enrollment", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("CourseInstanceId")
-                        .HasColumnType("uniqueidentifier");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<Guid>("ParticipantId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("CourseInstanceId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("ModifiedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ParticipantId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("RegisteredAtUtc")
                         .HasColumnType("datetime2");

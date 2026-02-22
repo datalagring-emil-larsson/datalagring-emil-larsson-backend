@@ -4,7 +4,7 @@ namespace CourseManager.Domain.Entities;
 
 public sealed class Teacher
 {
-    public Guid Id { get; private set; }
+    public int Id { get; private set; }
     public string FirstName { get; private set; } = null!;
     public string LastName { get; private set; } = null!;
     public string Email { get; private set; } = null!;
@@ -12,10 +12,10 @@ public sealed class Teacher
 
     private Teacher() { }
 
-    public Teacher(Guid id, string firstName, string lastName, string email, string expertise)
+    public Teacher(string firstName, string lastName, string email, string expertise)
     {
-        Id = id;
         Update(firstName, lastName, email, expertise);
+
     }
 
     public void Update(string firstName, string lastName, string email, string expertise)

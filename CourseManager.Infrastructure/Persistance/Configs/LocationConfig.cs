@@ -12,7 +12,7 @@ public sealed class LocationConfig : IEntityTypeConfiguration<Location>
         builder.HasKey(l => l.Id);
 
         builder.Property(l => l.Id)
-            .ValueGeneratedNever();
+            .ValueGeneratedOnAdd();
 
         builder.Property(l => l.Classroom)
             .HasMaxLength(100)

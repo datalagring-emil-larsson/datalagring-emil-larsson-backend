@@ -12,7 +12,7 @@ public sealed class TeacherConfig : IEntityTypeConfiguration<Teacher>
         builder.HasKey(t => t.Id);
 
         builder.Property(t => t.Id)
-            .ValueGeneratedNever();
+            .ValueGeneratedOnAdd();
 
         builder.Property(t => t.FirstName)
             .HasMaxLength(100)

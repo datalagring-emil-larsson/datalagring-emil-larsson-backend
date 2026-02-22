@@ -4,25 +4,39 @@ using System;
 
 public sealed class Enrollment
 {
-    public Guid Id { get; private set; }
-    public Guid ParticipantId { get; private set; }
-    public Guid CourseInstanceId { get; private set; }
+    public int Id { get; private set; }
+    public int ParticipantId { get; private set; }
+    public int CourseInstanceId { get; private set; }
     public EnrollmentStatus Status { get; private set; }
     public DateTime RegisteredAtUtc { get; private set; }
+    public DateTime ModifiedAtUtc { get; private set; }
 
     private Enrollment() { }
 
-    internal Enrollment(Guid id, Guid participantId, Guid courseInstanceId, DateTime registeredAtUtc)
+    internal Enrollment(int participantId, int courseInstanceId)
     {
-        Id = id;
         CourseInstanceId = courseInstanceId;
         ParticipantId = participantId;
-        RegisteredAtUtc = registeredAtUtc;
+        RegisteredAtUtc = DateTime.UtcNow;
         Status = EnrollmentStatus.Registered;
+
     }
 
-    public void Cancel() => Status = EnrollmentStatus.Cancelled;
-    public void MarkAttended() => Status = EnrollmentStatus.Attended;
+    public void Cancel()
+    {
+        Status = EnrollmentStatus.Cancelled;
+        ModifiedAtUtc = DateTime.UtcNow;
+    } 
+    public void MarkAttended()
+    {
+        Status = EnrollmentStatus.Attended;
+        ModifiedAtUtc = DateTime.UtcNow;
+    } 
 
+    public void Reactivate()
+    {
+        Status = EnrollmentStatus.Registered;
+        ModifiedAtUtc = DateTime.UtcNow;
+    }
     
 }

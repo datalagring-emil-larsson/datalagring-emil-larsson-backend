@@ -12,7 +12,7 @@ public sealed class ParticipantConfig : IEntityTypeConfiguration<Participant>
         builder.HasKey(p => p.Id);
 
         builder.Property(p => p.Id)
-            .ValueGeneratedNever();
+            .ValueGeneratedOnAdd();
 
         builder.Property(p => p.Email)
             .HasMaxLength(255)

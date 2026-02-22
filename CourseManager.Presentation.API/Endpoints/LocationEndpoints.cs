@@ -23,19 +23,19 @@ public static class LocationEndpoints
             return Results.Ok(Locations);
         });
 
-        group.MapGet("/{id:guid}", async (Guid id, LocationService service, CancellationToken ct) =>
+        group.MapGet("/{id:guid}", async (int id, LocationService service, CancellationToken ct) =>
         {
             var location = await service.GetByIdAsync(id, ct);
             return Results.Ok(location);
         });
 
-        group.MapPut("/{id:guid}", async (Guid id, UpdateLocationRequest request, LocationService service, CancellationToken ct) =>
+        group.MapPut("/{id:guid}", async (int id, UpdateLocationRequest request, LocationService service, CancellationToken ct) =>
         {
             await service.UpdateAsync(id, request, ct);
             return Results.NoContent();
         });
 
-        group.MapDelete("/{id:guid}", async (Guid id, LocationService service, CancellationToken ct) =>
+        group.MapDelete("/{id:guid}", async (int id, LocationService service, CancellationToken ct) =>
         {
             await service.DeleteAsync(id, ct);
             return Results.NoContent();

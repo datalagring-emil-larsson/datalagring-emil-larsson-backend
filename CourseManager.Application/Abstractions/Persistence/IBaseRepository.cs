@@ -2,7 +2,7 @@
 
 public interface IBaseRepository<TEntity> where TEntity : class
 {
-    Task<TEntity?> GetByIdAsync(Guid id, CancellationToken ct);
+    Task<TEntity?> GetByIdAsync(int id, CancellationToken ct);
     Task<List<TEntity>> ListAsync(CancellationToken ct);
 
     Task AddAsync(TEntity entity, CancellationToken ct);

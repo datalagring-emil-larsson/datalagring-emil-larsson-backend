@@ -11,7 +11,7 @@ public sealed class LocationService
 
     public LocationService(IBaseRepository<Location> repo) => _repo = repo;
 
-    public async Task<Guid> CreateAsync(CreateLocationRequest request, CancellationToken ct)
+    public async Task<int> CreateAsync(CreateLocationRequest request, CancellationToken ct)
     {
         var location = new Location(request.classRoom, request.adress, request.city);
 
@@ -21,14 +21,14 @@ public sealed class LocationService
         return location.Id;
     }
 
-    public async Task<Location> GetByIdAsync(Guid id, CancellationToken ct)
+    public async Task<Location> GetByIdAsync(int id, CancellationToken ct)
         => await _repo.GetByIdAsync(id, ct)
         ?? throw new NotFoundException("Location", id);
 
     public Task<List<Location>> ListAsync(CancellationToken ct)
         => _repo.ListAsync(ct);
 
-    public async Task UpdateAsync(Guid id, UpdateLocationRequest request, CancellationToken ct)
+    public async Task UpdateAsync(int id, UpdateLocationRequest request, CancellationToken ct)
     {
         var location = await _repo.GetByIdAsync(id, ct)
             ?? throw new NotFoundException("Location", id);
@@ -37,7 +37,7 @@ public sealed class LocationService
         await _repo.SaveChangesAsync(ct);
     }
 
-    public async Task DeleteAsync(Guid id, CancellationToken ct)
+    public async Task DeleteAsync(int id, CancellationToken ct)
     {
         var location = await _repo.GetByIdAsync(id, ct)
             ?? throw new NotFoundException("Location", id);
